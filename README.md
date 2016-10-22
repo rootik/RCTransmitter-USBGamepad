@@ -7,7 +7,9 @@
 
 #Features
  - 6 channels PPM input
+ - Interrupt driven 0.5 uS accuracy
  - Low jitter
+ - 1000 points resolution
  - Plug-n-play
  - DirectX compatible
 
@@ -24,6 +26,7 @@
  Tested with FlySky(Turnigy) FS-i6 transmitter and aerofly RC 7 simulator.
  FlySky FS-i6 flashed with 10 channels firmware. On the trainer port it transmits only 6 channels.
  Note: turn on Trainer mode in the RC.
+ You can remap AUX1 and AUX2 dials to switches in RC configuration.
 
 #Sample screens:
  Adding controller
