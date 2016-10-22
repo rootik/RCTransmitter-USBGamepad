@@ -30,4 +30,4 @@
  ![Alt text](images/aerofly1.png?raw=true "Adding controller")
 
  Controller configuration
- ![Alt text](images/aerofly1.png?raw=true "Controller configuration")
+ ![Alt text](images/aerofly2.png?raw=true "Controller configuration")
