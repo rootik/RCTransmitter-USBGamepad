@@ -11,7 +11,7 @@
  * - RC GND  <--> Arduino GND
  * 
  * Author:    rootik <roootik@gmail.com>
- * - github:	https://github.com/rootik/
+ * - github:	https://github.com/rootik/RCTransmitter-USBGamepad
 **************************************************************************************************/
 
 #include "Arduino.h"
