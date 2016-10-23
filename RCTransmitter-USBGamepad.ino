@@ -21,7 +21,7 @@
 // Use for Futaba transmitters (they have shifted center value and narrower range by default)
 //#define FUTABA
 
-// Use to enable output of PPM values to serial
+// Uncomment to enable output of PPM values to serial
 //#define DEBUG
 
 #define RC_CHANNELS_COUNT 6
@@ -29,7 +29,7 @@
 #ifdef FUTABA
   #define MIN_PULSE_WIDTH 1080
   #define MAX_PULSE_WIDTH 1980
-	#define THRESHOLD 200
+	#define THRESHOLD 200 // threshold is used to detect PPM values (added to range at both ends)
 #else
 	#define MIN_PULSE_WIDTH 1000
 	#define MAX_PULSE_WIDTH 2000
@@ -45,13 +45,13 @@
 //  divided by 2 to get the number of microseconds
 #define TIMER_COUNT_DIVIDER 2 
 
-volatile boolean triggered;
-volatile uint16_t counter;
-uint16_t pulse;
-uint16_t last;
-boolean first = true;
-unsigned long timer; // the timer
-uint16_t INTERVAL = 1000; // the repeat interval
+volatile boolean triggered; //interrupt flag, must be volatile
+volatile uint16_t counter;  //hold Timer1 counter value, must be volatile
+uint16_t pulse; //pulse width
+uint16_t last;  //previous counter value
+boolean first = true; //first frame flag
+uint16_t debug_timer; //debug timer
+#define DEBUG_INTERVAL = 1000; //repeat interval
 
 // this array contains the lengths of read PPM pulses in microseconds
 uint16_t rcChannels[RC_CHANNELS_COUNT];
@@ -101,7 +101,7 @@ void loop(){
       return;
     } else 
     {
-      USBGamepad.write(rcChannels); //send usb report with channels data
+      USBGamepad.write(rcChannels); //we have complete frame so send usb report with channels data
     }
   }
   else {
@@ -115,9 +115,9 @@ void loop(){
   }
   
   #ifdef DEBUG
-  if ((millis() - timer) > INTERVAL && chan == 0) {
+  if ((millis() - debug_timer) > DEBUG_INTERVAL && chan == 0) {
       // timed out
-      timer += INTERVAL; // reset timer by moving it along to the next interval 
+      debug_timer += DEBUG_INTERVAL; // reset timer by moving it along to the next interval 
   	Serial.print(rcChannels[0]); 
   	Serial.print("\t");
   	Serial.print(rcChannels[1]); 
