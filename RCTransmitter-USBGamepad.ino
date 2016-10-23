@@ -49,6 +49,7 @@ volatile boolean triggered;
 volatile uint16_t counter;
 uint16_t pulse;
 uint16_t last;
+boolean first = true;
 unsigned long timer; // the timer
 uint16_t INTERVAL = 1000; // the repeat interval
 
@@ -56,8 +57,14 @@ uint16_t INTERVAL = 1000; // the repeat interval
 uint16_t rcChannels[RC_CHANNELS_COUNT];
 uint8_t chan = 0; // current channel
 
+ISR(TIMER1_CAPT_vect) { //Timer1 ISR capture vector
+  counter = ICR1; //grab Timer1 value
+  triggered = true; //we have interrupt
+}
+
 void setup() {
-  pinMode(PPM_CAPTURE_PIN, INPUT_PULLUP);
+  cli(); //disable global interrupts until we are ready to accept them
+  pinMode(PPM_CAPTURE_PIN, INPUT_PULLUP); //set PPM capture pin with pullup enabled
 
   // Input Capture setup
   // ICNC1: =0 Disable Input Capture Noise Canceler to prevent delay in reading
@@ -72,30 +79,37 @@ void setup() {
   TIFR1 = (1<<ICF1); // clear pending
   TIMSK1 = (1<<ICIE1); // and enable
   
-	USBGamepad.begin(rcChannels);  
+	USBGamepad.begin(rcChannels);  //send empty USB report
 
 #ifdef DEBUG
   timer = millis(); // start timer
 	Serial.begin(115200);
 #endif
-
+  sei(); //enable global interrupts
 }
 
 void loop(){
-  if (!triggered)
-    return;
-  pulse = counter - last;
-  last = counter;
-  if(pulse > (NEWFRAME_PULSE_WIDTH * TIMER_COUNT_DIVIDER)) {
-    chan = 0;  // new data frame detected, start again
-    USBGamepad.write(rcChannels);
+  if (!triggered) //wait for interrupt
+    return;  
+  pulse = (counter - last) / TIMER_COUNT_DIVIDER; //pulse width
+  last = counter; //store
+  if(pulse > (NEWFRAME_PULSE_WIDTH)) {
+    chan = 0;  // new data frame detected, start again    
+    if (first) { //discard first frame data because it may be incomplete 
+      first = false;
+      triggered = false;
+      return;
+    } else 
+    {
+      USBGamepad.write(rcChannels); //send usb report with channels data
+    }
   }
   else {
-    if(pulse > (MIN_PULSE_WIDTH * TIMER_COUNT_DIVIDER - THRESHOLD) 
-      && pulse < (MAX_PULSE_WIDTH * TIMER_COUNT_DIVIDER + THRESHOLD) 
-      && chan < RC_CHANNELS_COUNT) 
+    if(pulse > (MIN_PULSE_WIDTH - THRESHOLD) 
+      && pulse < (MAX_PULSE_WIDTH + THRESHOLD) 
+      && chan < RC_CHANNELS_COUNT && !first) 
     {
-      rcChannels[chan] = pulse / TIMER_COUNT_DIVIDER; //store detected value      
+      rcChannels[chan] = pulse; //store detected value      
     }
     chan++; //no value detected within expected range, move to next channel
   }
@@ -118,10 +132,5 @@ void loop(){
   }
   #endif
   
-  triggered = false;
-}
-
-ISR(TIMER1_CAPT_vect) {
-  counter = ICR1;
-  triggered = true;
+  triggered = false; //wait for another interrupt
 }
