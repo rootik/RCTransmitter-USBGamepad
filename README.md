@@ -30,6 +30,9 @@
  Note: turn on Trainer mode in the RC.
  You can remap AUX1 and AUX2 dials to switches in RC configuration.
 
+#Trainer port of FlySky FS-i6
+ ![Alt text](images/fs-i6.png?raw=true "Trainer port")
+
 #Sample screens:
  Adding controller in aerofly RC 7
  ![Alt text](images/aerofly1.png?raw=true "Adding controller")
