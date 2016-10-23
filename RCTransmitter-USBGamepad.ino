@@ -51,7 +51,7 @@ uint16_t pulse; //pulse width
 uint16_t last;  //previous counter value
 boolean first = true; //first frame flag
 uint16_t debug_timer; //debug timer
-#define DEBUG_INTERVAL = 1000; //repeat interval
+#define DEBUG_INTERVAL 800 //serial output every DEBUG_INTERVAL
 
 // this array contains the lengths of read PPM pulses in microseconds
 uint16_t rcChannels[RC_CHANNELS_COUNT];
@@ -82,7 +82,7 @@ void setup() {
 	USBGamepad.begin(rcChannels);  //send empty USB report
 
 #ifdef DEBUG
-  timer = millis(); // start timer
+  debug_timer = millis(); // start timer
 	Serial.begin(115200);
 #endif
   sei(); //enable global interrupts
@@ -115,7 +115,7 @@ void loop(){
   }
   
   #ifdef DEBUG
-  if ((millis() - debug_timer) > DEBUG_INTERVAL && chan == 0) {
+  if ((millis() - debug_timer) > DEBUG_INTERVAL && chan == 5) { //debug output when we have 10-12 mS pause in interrupts, while in start pulse
       // timed out
       debug_timer += DEBUG_INTERVAL; // reset timer by moving it along to the next interval 
   	Serial.print(rcChannels[0]); 
