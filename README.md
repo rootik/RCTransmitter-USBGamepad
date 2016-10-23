@@ -7,8 +7,10 @@
 
 #Features
  - 6 channels PPM input
+ - Compatible with any RC transmitter with PPM output (only first 6 channels used)
  - Interrupt driven 0.5 uS accuracy
  - Low jitter
+ - 4 axis USB Gamepad (X,Y,Z,Z rotation) + 2 sliders
  - 1000 points resolution
  - Plug-n-play
  - DirectX compatible
@@ -29,8 +31,11 @@
  You can remap AUX1 and AUX2 dials to switches in RC configuration.
 
 #Sample screens:
- Adding controller
+ Adding controller in aerofly RC 7
  ![Alt text](images/aerofly1.png?raw=true "Adding controller")
 
- Controller configuration
+ Controller configuration in aerofly RC 7
  ![Alt text](images/aerofly2.png?raw=true "Controller configuration")
+
+  Controller calibration in FreeRider FPV
+ ![Alt text](images/freerider.png?raw=true "Controller calibration")
