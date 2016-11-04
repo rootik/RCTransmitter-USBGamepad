@@ -12,7 +12,9 @@
  * 
  * Author:    rootik <roootik@gmail.com>
  * - github:	https://github.com/rootik/RCTransmitter-USBGamepad
-**************************************************************************************************/
+ * 
+ * License: MIT
+ *************************************************************************************************/
 
 #include "Arduino.h"
 #include <avr/interrupt.h>

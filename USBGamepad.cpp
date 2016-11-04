@@ -1,5 +1,6 @@
 /* 
  * Copyright (c) 2016, rootik <roootik@gmail.com>
+ * License: MIT
 */
 
 #include "USBGamepad.h"
