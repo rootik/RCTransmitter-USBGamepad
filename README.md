@@ -22,7 +22,7 @@
  - RC PPM out <--> Digital Pin 4 of Arduino Leonardo (Pro Micro)
  - RC GND  <--> Arduino GND
 
- This sketch uses Timer1 interrupt so connection to Digital pin 4 is mandatory.
+ This sketch uses Timer1 ICP1 interrupt so connection to Digital pin 4 is mandatory.
 
 #Flashing
  - Open the sketch in Arduino IDE, choose Leonardo board, upload.
