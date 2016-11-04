@@ -111,9 +111,10 @@ void loop(){
       && pulse < (MAX_PULSE_WIDTH + THRESHOLD) 
       && chan < RC_CHANNELS_COUNT && !first) 
     {
-      rcChannels[chan] = pulse; //store detected value      
+      rcChannels[chan] = pulse; //store detected value
+      chan++; //move to next channel    
     }
-    chan++; //no value detected within expected range, move to next channel
+    
   }
   
   #ifdef DEBUG
