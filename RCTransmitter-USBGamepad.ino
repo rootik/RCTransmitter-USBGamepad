@@ -20,6 +20,8 @@
 #include <avr/interrupt.h>
 #include "USBGamepad.h"
 
+#define BYPASSPULLUP
+
 // Use for Futaba transmitters (they have shifted center value and narrower range by default)
 //#define FUTABA
 
@@ -66,15 +68,28 @@ ISR(TIMER1_CAPT_vect) { //Timer1 ISR capture vector
 
 void setup() {
   cli(); //disable global interrupts until we are ready to accept them
-  pinMode(PPM_CAPTURE_PIN, INPUT_PULLUP); //set PPM capture pin with pullup enabled
+  
+  #ifdef BYPASSPULLUP
+    pinMode(PPM_CAPTURE_PIN, INPUT); //set PPM capture pin
 
-  // Input Capture setup
-  // ICNC1: =0 Disable Input Capture Noise Canceler to prevent delay in reading
-  // ICES1: =1 for trigger on rising edge
-  // CS11: =1 set prescaler to 1/8 system clock (F_CPU)
-  TCCR1A = 0;
-  TCCR1B = (0<<ICNC1) | (1<<ICES1) | (1<<CS11);
-  TCCR1C = 0;
+    // Input Capture setup
+    // ICNC1: =0 Disable Input Capture Noise Canceler to prevent delay in reading
+    // ICES1: =0 for trigger on falling edge
+    // CS11: =1 set prescaler to 1/8 system clock (F_CPU)
+    TCCR1A = 0;
+    TCCR1B = (0<<ICNC1) | (0<<ICES1) | (1<<CS11);
+    TCCR1C = 0;
+  #else
+    pinMode(PPM_CAPTURE_PIN, INPUT_PULLUP); //set PPM capture pin with pullup enabled
+
+    // Input Capture setup
+    // ICNC1: =0 Disable Input Capture Noise Canceler to prevent delay in reading
+    // ICES1: =1 for trigger on rising edge
+    // CS11: =1 set prescaler to 1/8 system clock (F_CPU)
+    TCCR1A = 0;
+    TCCR1B = (0<<ICNC1) | (1<<ICES1) | (1<<CS11);
+    TCCR1C = 0;
+  #endif
 
   // Interrupt setup
   // ICIE1: Input capture 
