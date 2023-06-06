@@ -5,10 +5,10 @@
  aerofly RC 7 (http://www.aeroflyrc.com/)
  or other flight simulators.
 
-#Warning
+# Warning
  Do not flash non ATmega32U4 MCU's with this sketch. It wont do any harm but will not work.
 
-#Features
+# Features
  - 6 channels PPM input
  - Compatible with any RC transmitter with PPM output (only first 6 channels used)
  - Interrupt driven 0.5 uS accuracy
@@ -18,16 +18,16 @@
  - Plug-n-play
  - DirectX compatible
 
-#Connections
+# Connections
  - RC PPM out <--> Digital Pin 4 of Arduino Leonardo (Pro Micro)
  - RC GND  <--> Arduino GND
 
  This sketch uses Timer1 ICP1 interrupt so connection to Digital pin 4 is mandatory.
 
-#Flashing
+# Flashing
  - Open the sketch in Arduino IDE, choose Leonardo board, upload.
 
-#Usage
+# Usage
  In Windows: open *Devices and Printers* find *Arduino Leonardo*. Then right click on it and choose *Game controller settings*. Calibrate joystick using your RC Transmitter connected.
 
  Tested with FlySky(Turnigy) FS-i6 transmitter, aerofly RC 7 simulator and FreeRider FPV.
@@ -35,10 +35,10 @@
  Note: consider turning on *Trainer mode* in the RC configuration menu. It wont stop RC from binding and transmitting, but can prevent your aircraft from flying away accidentally.
  You can remap AUX1 and AUX2 dials to switches in RC configuration.
 
-#Trainer port of FlySky FS-i6
+# Trainer port of FlySky FS-i6
  ![Alt text](images/fs-i6.png?raw=true "Trainer port")
 
-#Sample screens
+# Sample screens
  Adding controller in aerofly RC 7
  ![Alt text](images/aerofly1.png?raw=true "Adding controller")
 

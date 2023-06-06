@@ -22,7 +22,7 @@ public:
 	void write(uint16_t *report);
 
 private:
-  uint16_t _report[];
+  uint16_t _report[1];
   void SendReport(void *data);
 };
 
